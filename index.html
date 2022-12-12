@@ -7,5 +7,51 @@
 </head>
 <body>
     <h1>Fly or Die</h1>
+
+    <div id="dataDiv">
+        <form onsubmit="calculate()">
+            <label>Enter visibility (statute miles): </label> <input id="visibility" name="visibility"></input><br />
+            <label>Cloud Ceiling (feet above ground): </label> <input id="cloudClearance" name="cloudClearance"></input><br />
+            <input type="submit" value="submit">
+        </form>
+    </div>
+    
+
+    <script>
+        function calculate() {
+            var fly = 0; //0 means you will fly. 1 means you won't
+            var visibility = document.getElementById("visibility").value
+            var cloudClearance = document.getElementById("cloudClearance").value
+            
+            if(isNaN(visibility) || isNaN(cloudClearance)) {
+                window.alert("You entered invalid data. Please try again.")
+            } else if (visibility <= 2) {
+                fly = 1
+            } else if (cloudClearance < 2000) {
+                fly = 1
+            }
+            
+            if (fly == 0) {
+                document.getElementById("dataDiv").innerHTML = "<p>you can fly!</p> <button id='tryAgain' onclick='resetForm()'>Try again!</button>"
+            } else {
+                document.getElementById("dataDiv").innerHTML = "<p>you can't fly!</p> <button id='tryAgain' onclick='resetForm()'>Try again!</button>"
+            }
+        }
+
+        function resetForm() {
+            document.getElementById("dataDiv").innerHTML = ` 
+            <form onsubmit="calculate()">
+                <label>Enter visibility (statute miles): </label> <input id="visibility" name="visibility"></input><br />
+                <label>Cloud Ceiling (feet above ground): </label> <input id="cloudClearance" name="cloudClearance"></input><br />
+                <input type="submit" value="submit">
+            </form>`;
+        }
+    </script>
+
+    <style>
+        body {
+            background-color:aqua;
+        }
+    </style>
 </body>
 </html>
