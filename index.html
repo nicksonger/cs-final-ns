@@ -9,11 +9,8 @@
     <h1>Fly or Die</h1>
 
     <div id="dataDiv">
-        <form onsubmit="calculate()">
-            <label>Enter visibility (statute miles): </label> <input id="visibility" name="visibility"></input><br />
-            <label>Cloud Ceiling (feet above ground): </label> <input id="cloudClearance" name="cloudClearance"></input><br />
-            <input type="submit" value="submit">
-        </form>
+        <p>Enter data from an airports METAR observation and this flight computer will tell you whether you can fly under VFR conditions or not.</p>
+        <button id="button" onclick="resetForm()">Go to Calculator</button>
     </div>
     
 
@@ -22,28 +19,34 @@
             var fly = 0; //0 means you will fly. 1 means you won't
             var visibility = document.getElementById("visibility").value
             var cloudClearance = document.getElementById("cloudClearance").value
+            var windVelocity = document.getElementById("windVelocity").value
             
-            if(isNaN(visibility) || isNaN(cloudClearance)) {
+            if(isNaN(visibility) || isNaN(cloudClearance) || isNaN(windVelocity)) {
                 window.alert("You entered invalid data. Please try again.")
-            } else if (visibility <= 2) {
-                fly = 1
-            } else if (cloudClearance < 2000) {
-                fly = 1
-            }
-            
-            if (fly == 0) {
-                document.getElementById("dataDiv").innerHTML = "<p>you can fly!</p> <button id='tryAgain' onclick='resetForm()'>Try again!</button>"
             } else {
-                document.getElementById("dataDiv").innerHTML = "<p>you can't fly!</p> <button id='tryAgain' onclick='resetForm()'>Try again!</button>"
-            }
-        }
+                if (visibility <= 2) {
+                    fly = 1
+                }   else if (cloudClearance < 2000) {
+                    fly = 1
+                }   else if (windVelocity >= 15 ) {
+                    fly = 1
+                }
+                
+                if (fly == 0) {
+                    document.getElementById("dataDiv").innerHTML = "<p>Congrats, you can fly!</p> <button id='button' onclick='resetForm()'>Try again!</button>"
+                } else {
+                    document.getElementById("dataDiv").innerHTML = "<p>Unless you send your instructor a strongly worded email saying you don't believe it's a good idea to fly today... you will probably die.</p> <button id='button' onclick='resetForm()'>Try again!</button>"
+                }
+            }   
+        }   
 
         function resetForm() {
             document.getElementById("dataDiv").innerHTML = ` 
             <form onsubmit="calculate()">
-                <label>Enter visibility (statute miles): </label> <input id="visibility" name="visibility"></input><br />
-                <label>Cloud Ceiling (feet above ground): </label> <input id="cloudClearance" name="cloudClearance"></input><br />
-                <input type="submit" value="submit">
+                <label>Enter visibility (statute miles): </label> <input class="textBox" id="visibility" name="visibility"></input><br />
+                <label>Cloud Ceiling (feet above ground): </label> <input class="textBox" id="cloudClearance" name="cloudClearance"></input><br />
+                <label>Wind Velocity (knots): </label> <input class="textBox" id="windVelocity" name="windVelocity"></input><br />
+                <input id="button" type="submit" value="Can I fly or will I die?">
             </form>`;
         }
     </script>
@@ -51,6 +54,22 @@
     <style>
         body {
             background-color:aqua;
+            text-align:center;
+            color:red;
+            font-family:'Courier New', Courier, monospace;
+        }
+
+        #button {
+            background-color:white;
+            border-style:none;
+            border-radius:12px;
+            color:red;
+        }
+
+        .textBox {
+            border-style:none;
+            border-radius:12px;
+            color:red;
         }
     </style>
 </body>
